@@ -1,0 +1,66 @@
+apiserver:
+  enableHealthz: true
+  insecureServing:
+    bindAddress: 0.0.0.0
+    bindNework: tcp
+    bindPort: 8080
+    enabled: true
+  secureServing:
+    enabled: false
+
+authentication:
+  session: true                   # --enable-session-auth
+  bootstrapToken: true            # --enable-bootstrap-token-auth
+  anonymous: true                 # --anonymous-auth
+  tokenAuthFile: ./etc/tokens.cvs # --token-auth-file={file-path}
+  oidc:
+    issuerURL:                    # --oidc-issuer-url
+    clientID:                     # --oidc-client-id
+  wx:
+
+authorization:
+  modes:                          # --modes=RBAC,AlwaysAllow
+    - RBAC
+  #policyFile: ./etc/abac.json     # --authorization-policy-file={file-path}
+  rbac:
+    configPath: ./etc/rbac        # --rbac-config-path
+  alwaysAllowGroups:
+    - system:masters
+  alwaysAllowPaths:
+    - /apidocs.json
+    - /swagger/*
+    - /healthz
+
+session:
+  cookieName: "golib-example-sid"
+  sidLength: 24
+  httpOnly: true
+  domain:
+  gcInterval: 300s
+  cookieLifetime: 16h
+  maxIdleTime: 1h
+
+#grpc:
+#  addr: ":8081"
+#  maxRecvMsgSize: 1024000
+
+db:
+  #driver: "sqlite3"
+  #dsn: "file:example-all.db?cache=shared&mode=memory"
+  #databases:
+  #  - name: "apiserver" 
+  #    driver: "sqlite3"
+  #    dsn: "file:example-all-apiserver.db?cache=shared&mode=memory"
+  driver: "mysql"
+  dsn: "root:1234@tcp(localhost:3306)/server?loc=Local&parseTime=true"
+
+tracing:
+  debug: false
+  serviceName: server
+  contextHeadername: Trace-Id
+  otel:
+    endpoint: localhost:4317
+    insecure: true
+
+
+

@@ -1,0 +1,15 @@
+[Unit]
+Description=apiserver demo
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/all-in-one/all-in-one.conf
+ExecStart=/usr/bin/all-in-one $OPTIONS
+KillMode=mixed
+Restart=on-failure
+Type=simple
+User=apiserver
+Group=apiserver
+
+[Install]
+WantedBy=multi-user.target

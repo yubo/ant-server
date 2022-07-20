@@ -1,0 +1,20 @@
+kind: ClusterRoleBinding
+metadata:
+  name: apiserver-guest
+roleRef:
+  kind: ClusterRole
+  name: apiserver-guest
+subjects:
+  - kind: Group
+    name: system:authenticated
+  - kind: Group
+    name: system:unauthenticated
+---
+kind: ClusterRole
+metadata:
+  name: apiserver-guest
+rules:
+  - nonResourceURLs:
+      - "*"
+    verbs: ["*"]
+
